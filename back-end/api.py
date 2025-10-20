@@ -36,3 +36,12 @@ def visualizar_produtos():
             "preco": produto[3], 
             "quantidade": produto[4]})
     return {"produtos": lista}
+
+@app.put("/Produtos/{id_produtos}")
+def atualizar_produtos(id_item: int, novo_preco: float, nova_quantidade: int):
+    produto = buscar_estoque(id_item)
+    if produto:
+        atualizar_produto(id_item, novo_preco, nova_quantidade)
+        return {"mensagem": "produto atualizado ✔"}
+    else:
+        return{"erro": "produto não atualizado"}
