@@ -19,3 +19,17 @@ if menu == "Catalogo":
             st.dataframe(produtos)
     else:
         st.error("Erro ao acessar a API")
+
+elif menu == "Adicionar Produto":
+    st.subheader("➕ Adicionar produto")
+    nome = st.text_input("Nome do produto")
+    categoria = st.text_input("categoria")
+    preco = st.number_input("Preço do produto", step=0.5)
+    quantidade = st.number_input("quantidade do produto", step=1)
+    if st.button("Adicionar Produto"):
+        dados = {"nome": nome, "categoria": categoria, "preco": preco, "quantidade": quantidade}
+        response = requests.post(f"{API_URL}/Produtos", params=dados)
+        if response.status_code == 200:
+            st.success("Produto adicionado com sucesso!")
+        else:
+            st.error("Erro ao adicionar o Produto")
