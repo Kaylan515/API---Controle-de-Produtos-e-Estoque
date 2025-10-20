@@ -18,3 +18,8 @@ app = FastAPI(title="Estoque de produtos")
 @app.get("/")
 def home():
     return{"mensagem": "Bem-vindo ao Estoque de produtos"}
+
+@app.post("/Produtos")
+def adicionar_produto(nome: str, categoria: str, preco: float, quantidade: int):
+    inserir_produto(nome, categoria, preco, quantidade)
+    return { "mensagem": "Produto adicionado com sucesso!"}
