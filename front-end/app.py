@@ -33,3 +33,24 @@ elif menu == "Adicionar Produto":
             st.success("Produto adicionado com sucesso!")
         else:
             st.error("Erro ao adicionar o Produto")
+
+elif menu == "Atualizar Produto":
+    st.subheader("✏️ Atualizar produto")
+
+    id_produto = st.number_input("ID do produto", step=1, min_value=1)
+    novo_preco = st.number_input("Novo preço", step=0.5)
+    nova_quantidade = st.number_input("Nova quantidade", step=1)
+
+    if st.button("Atualizar Produto"):
+        if not id_produto:
+            st.warning("Informe o ID do produto para atualizar.")
+        else:
+            params = {"novo_preco": novo_preco, "nova_quantidade": nova_quantidade}
+            response = requests.put(f"{API_URL}/Produtos/{id_produto}", params=params)
+
+            if response.status_code == 200:
+                st.success("✅ Produto atualizado com sucesso!")
+            elif response.status_code == 404:
+                st.error("❌ Produto não encontrado.")
+            else:
+                st.error("⚠️ Erro ao atualizar o produto.")
