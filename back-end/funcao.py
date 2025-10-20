@@ -36,6 +36,7 @@ def inserir_produto(nome, categoria, preco, quantidade):
             cursor.close()
             conexao.close()
 
+
 def listar_produtos():
     conexao, cursor = conectar()
     if conexao:
@@ -76,6 +77,20 @@ def deletar_produtos(id_item):
             conexao.commit()
         except Exception as erro:
             print(f"Erro ao tentar remover o produto {erro}")
+        finally:
+            cursor.close()
+            conexao.close()
+
+def buscar_estoque(id_item):
+    conexao, cursor = conectar()
+    if conexao:
+        try:
+            cursor.execute(
+                "SELECT nome,quantidade FROM produtos ORDER BY id = %s", (id_item,)
+            )
+            return cursor.fetchone()
+        except Exception as erro:
+            print(f"Erro ao tentar buscar produtos {erro}")
         finally:
             cursor.close()
             conexao.close()
