@@ -86,11 +86,12 @@ def buscar_estoque(id_item):
     if conexao:
         try:
             cursor.execute(
-                "SELECT nome,quantidade FROM produtos ORDER BY id = %s", (id_item,)
+                "SELECT id, nome, categoria, preco, quantidade FROM produtos WHERE id = %s",
+                (id_item,)
             )
             return cursor.fetchone()
         except Exception as erro:
-            print(f"Erro ao tentar buscar produtos {erro}")
+            print(f"Erro ao tentar buscar produto: {erro}")
         finally:
             cursor.close()
             conexao.close()
