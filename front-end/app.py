@@ -8,7 +8,7 @@ st.set_page_config(page_title="Estoque", page_icon="🏭")
 st.title("📦 Estoque de Produtos")
 
 #Menu lateral
-menu = st.sidebar.radio("Navegação", ["Catalogo", "Adicionar Produto", "Atualizar Produto", "Deletar"])
+menu = st.sidebar.radio("Navegação", ["Catalogo", "Adicionar Produto", "Atualizar Produto", "Deletar", "Buscar Estoque"])
 
 if menu == "Catalogo":
     st.subheader("Todos os produtos disponiveis")
@@ -83,4 +83,20 @@ elif menu == "Deletar":
         else:
             st.warning("Informe um ID válido do produto.")
   
-
+elif menu == "Buscar Estoque":
+    st.subheader(" 🛒 Buscar no Estoque ")
+    id_produto = st.number_input("Digite o ID do produto para busca-lo:", min_value=1, step=1)
+    if st.button("Buscar produto"):
+        if id_produto > 0:
+            url = f"{API_URL}/buscar"
+            response = requests.get(url, params={"id_produto": id_produto})
+            if response.status_code == 200:
+                produto = response.json().get("produto")  
+                if produto:
+                    st.write("Produto encontrado:")
+                    st.dataframe(produto)
+                    st.success("Produto encontrado com sucesso!")
+                else:
+                    st.warning("Produto não encontrado.")
+        else:
+            st.error("Digite um ID de produto válido (maior que 0).")

@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from funcao import listar_produtos, deletar_produtos, criar_tabela, inserir_produto, atualizar_produto, buscar_estoque
+from funcao import listar_produtos, deletar_produtos, criar_tabela, inserir_produto, atualizar_produto, buscar_quantidade
 
 # Rodar o fastapi:
 # python -m uvicorn api:app --reload
@@ -53,3 +53,14 @@ def deletar_produto(id_produto):
         return {"mensagem": " Produto deletado com sucesso!"}
     else:
         return {"erro": "Não foi possível deletar o produto"}
+
+@app.get("/buscar")
+def buscar_estoque(id_produto: int):
+    produto = buscar_quantidade(id_produto)
+    if produto:
+        return {
+            "produto": {
+                "nome": produto[0],
+                "quantidade": produto[1]
+            }
+        }
